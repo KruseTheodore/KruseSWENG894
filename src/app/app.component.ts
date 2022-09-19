@@ -9,7 +9,7 @@ import { BourbonService } from './bourbon.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  public bourbons: Bourbon[] | undefined;
+  public bourbons: Bourbon[];
 
   constructor(private bourbonService: BourbonService) { }
 

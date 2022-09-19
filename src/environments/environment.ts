@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  testUrl:'http://localhost8080/BourbonCommunityReviews'
+  testUrl:'http://localhost:8080/BourbonCommunityReviews'
 };
 
 /*
