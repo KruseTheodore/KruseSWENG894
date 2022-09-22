@@ -9,25 +9,11 @@ import { BourbonService } from './bourbon.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  public bourbons: Bourbon[];
-
-  constructor(private bourbonService: BourbonService) { }
 
   ngOnInit() {
-    this.getBourbons();
+    //this.getBourbons();
   }
 
-  public getBourbons(): void {
-    this.bourbonService.getBourbons().subscribe(
-      (response: Bourbon[]) => {
-        this.bourbons = response;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-      );
-
-  }
   
 
 
