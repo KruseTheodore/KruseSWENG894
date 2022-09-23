@@ -1,0 +1,24 @@
+
+  <div class="card position-absolute top-50 start-50 translate-middle" style="width: 40rem;">
+    <div class="card-body">
+      <h5 class="card-title">Sign Up</h5>
+      <form [formGroup]="signupForm" (ngSubmit)="signup()">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" [formControlName]="'username'" placeholder="Username" class="form-control" >
+          <span *ngIf="!signupForm.get('username')?.valid && signupForm.get('username')?.touched"> 
+            Please provide valid username.
+        </span>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" [formControlName]="'password'" placeholder="Password" class="form-control">
+          <span *ngIf="!signupForm.get('password')?.valid && signupForm.get('password')?.touched"> 
+            Please provide valid password.
+        </span>
+        </div>
+        <button type="link" class="btn btn-primary me-2">Back</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
