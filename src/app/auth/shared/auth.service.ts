@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginPayload } from '../login/login.payload';
 import { LoginResponse } from '../login/login.response';
@@ -30,11 +30,28 @@ export class AuthService {
     let options = { headers: headers};
     return this.httpClient.post<LoginResponse>(`${this.serverUrl}/profile/login`, body, options).
     pipe(map(data => {
-      console.log(data);
       this.localstorage.store('authenticationToken', data.access_token);
       this.localstorage.store('refreshToken', data.refresh_token);
     }));
+  }
 
+  refreshToken(){
+    let headers = new HttpHeaders().set('If-Match', 'Bearer ' + this.getRefreshToken());
+    let options = { headers: headers};
+
+    return this.httpClient.get<LoginResponse>(`${this.serverUrl}/profile/refresh`, options).pipe(tap(data => {
+      this.localstorage.store('authenticationToken', data.access_token);
+      this.localstorage.store('refreshToken', data.refresh_token);
+    }))
+
+  }
+
+  getJwtToken() {
+    return this.localstorage.retrieve('authenticationToken');
+  }
+
+  getRefreshToken() {
+    return this.localstorage.retrieve('refreshToken');
   }
 }
 
