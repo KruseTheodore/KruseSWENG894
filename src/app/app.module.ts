@@ -11,6 +11,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './auth/login/login.component';
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import { TokenInterceptor } from './token-interceptor';
+import { HomeComponent } from './home/home.component';
+import { InfoComponent } from './info/info.component';
+import { ReviewComponent } from './review/review.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { TokenInterceptor } from './token-interceptor';
     HeaderComponent,
     BourbonComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent,
+    InfoComponent,
+    ReviewComponent
   ],
   imports: [
     BrowserModule,

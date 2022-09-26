@@ -14,8 +14,8 @@ export class ReviewService {
     
    }
 
-    public getProfiles(): Observable<Review[]> {
-      return this.http.get<Review[]>(`${this.serverUrl}/profile`)
+    public getReviews(): Observable<Review[]> {
+      return this.http.get<Review[]>(`${this.serverUrl}/review`)
     }
 
 }
