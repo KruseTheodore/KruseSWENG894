@@ -15,8 +15,10 @@ export class LogoutComponent implements OnInit {
   }
 
   logout(){
-    this.authService.logout();
-    this.header.ngOnInit();
+    this.authService.logout().subscribe(data => {
+      this.header.ngOnInit();
+    })
   }
+  
 
 }

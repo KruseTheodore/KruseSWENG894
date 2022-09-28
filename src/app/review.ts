@@ -7,6 +7,7 @@ export interface Review {
     mouthfeel: number;
     value: number;
     availability: number;
+    content: string;
     profile_id: string;
     bourbon_id: string;
 }

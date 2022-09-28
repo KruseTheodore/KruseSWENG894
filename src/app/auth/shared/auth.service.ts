@@ -31,24 +31,24 @@ export class AuthService {
     let body = new URLSearchParams();
     body.set("username", loginPayload.username ??"");
     body.set("password", loginPayload.password ??"");
-    this.localstorage.store('username', loginPayload.username);
     let headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
     let options = { headers: headers};
     return this.httpClient.post<LoginResponse>(`${this.serverUrl}/profile/login`, body, options).
     pipe(map(data => {
       this.localstorage.store('authenticationToken', data.access_token);
       this.localstorage.store('refreshToken', data.refresh_token);
+      this.localstorage.store('username', loginPayload.username);
     }));
   }
 
-  logout(){
+  logout(): Observable<any>{
     let headers = new HttpHeaders().set('If-None-Match', 'Bearer ' + this.getRefreshToken());
     let options = { headers: headers};
-    return this.httpClient.get(`${this.serverUrl}/profile/logout`, options).subscribe(data => {
+    return this.httpClient.get(`${this.serverUrl}/profile/logout`, options).pipe(map(data => {
     this.localstorage.clear('authenticationToken');
     this.localstorage.clear('refreshToken');
     this.localstorage.clear('username');
-    })
+    }));
   }
 
   refreshToken(){

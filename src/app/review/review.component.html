@@ -1,3 +1,44 @@
 <br>
 <h2 style="text-align: center">Reviews</h2>
 <br>
+<div *ngFor="let review of reviews" class="card mb-3 mx-auto" style="width: 90%" >
+    <h5 class="card-header">{{review?.name}}</h5>
+    <div class="card-body">
+      <h5 class="card-title">Bourbon: {{review?.bourbon_id}}</h5>
+      <h5 class="card-title">Rating: {{review?.rating}}</h5>
+      <div> 
+        <span *ngIf="!review.taste">
+            taste: N/A
+        </span>
+        <span *ngIf="review.taste">
+            taste: {{review?.taste}}
+        </span>
+        <span *ngIf="!review.nose">
+            nose: N/A
+        </span>
+        <span *ngIf="review.nose">
+            nose: {{review?.nose}}
+        </span>
+        <span *ngIf="!review.mouthfeel">
+            mouthfeel: N/A
+        </span>
+        <span *ngIf="review.mouthfeel">
+            mouthfeel: {{review?.mouthfeel}}
+        </span>
+        <span *ngIf="!review.value">
+            value: N/A
+        </span>
+        <span *ngIf="review.value">
+            value: {{review?.value}}
+        </span>
+        <span *ngIf="!review.availability">
+            availability: N/A
+        </span>
+        <span *ngIf="review.availability">
+            availability: {{review?.availability}}
+        </span>
+    </div>
+      <p class="card-text">{{review?.content}}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
