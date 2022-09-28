@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
 import { map, Observable, tap } from 'rxjs';
+import { Profile } from 'src/app/profile';
 import { environment } from 'src/environments/environment';
 import { LoginPayload } from '../login/login.payload';
 import { LoginResponse } from '../login/login.response';
@@ -20,6 +21,10 @@ export class AuthService {
   signup(signupPayload: SignupPayload): Observable<any>{
     const options = {headers: {'ContentType': "application/json"}};
     return this.httpClient.post(`${this.serverUrl}/profile/new`, {"name": signupPayload.username, "password": signupPayload.password}, options);
+  }
+
+  checkUser(signupPayload: SignupPayload): Observable<boolean>{
+     return this.httpClient.get<boolean>(`${this.serverUrl}/profile/check/${signupPayload.username}`)
   }
 
   login(loginPayload: LoginPayload): Observable<any>{
@@ -52,6 +57,10 @@ export class AuthService {
 
   getRefreshToken() {
     return this.localstorage.retrieve('refreshToken');
+  }
+
+  getUsername() {
+    return this.localstorage.retrieve('name');
   }
 }
 
