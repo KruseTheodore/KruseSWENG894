@@ -3,7 +3,7 @@
     <!-- navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a routerLink= "/info" href="#info" class="navbar-brand">
+      <a routerLink= "/info" href="#info" class="navbar-brand" (click)="resetHeader()">
         <span class="fw-bold text-secondary">
           Bourbon Community Reviews
         </span>
@@ -11,22 +11,38 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse justify-content-end align-center" id="navbarNav">
+      <div *ngIf="!isLoggedIn" class="collapse navbar-collapse justify-content-end align-center" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a routerLink= "/home" class="nav-link active" aria-current="page" href="#home">Home</a>
+            <a routerLink= "/home" class="nav-link active" aria-current="page" href="#home" (click)="resetHeader()">Home</a>
           </li>
           <li class="nav-item">
-            <a routerLink= "/bourbon" class="nav-link" href="#bourbons">Bourbons</a>
+            <a routerLink= "/bourbon" class="nav-link" href="#bourbons" (click)="resetHeader()">Bourbons</a>
           </li>
           <li class="nav-item">
-            <a routerLink= "/review" class="nav-link" href="#reviews">Reviews</a>
+            <a routerLink= "/review" class="nav-link" href="#reviews" (click)="resetHeader()">Reviews</a>
           </li>
           <li class="nav-item">
-            <a routerLink= "/signup" class="btn btn-outline-primary me-2" href="#signup" role="button">Sign Up</a>
+            <a routerLink= "/signup" class="btn btn-outline-primary me-2" href="#signup" role="button" (click)="resetHeader()">Sign Up</a>
           </li>
           <li class="nav-item">
-            <a routerLink= "/login" class="btn btn-primary" href="#login" role="button">Login</a>
+            <a routerLink= "/login" class="btn btn-primary" href="#login" role="button" (click)="resetHeader()">Login</a>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="isLoggedIn" class="collapse navbar-collapse justify-content-end align-center" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a routerLink= "/home" class="nav-link active" aria-current="page" href="#home" (click)="resetHeader()">Home</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink= "/bourbon" class="nav-link" href="#bourbons" (click)="resetHeader()">Bourbons</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink= "/review" class="nav-link" href="#reviews" (click)="resetHeader()">Reviews</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink= "/logout" class="btn btn-primary" href="#logout" role="button" (click)="resetHeader()">Logout</a>
           </li>
         </ul>
       </div>

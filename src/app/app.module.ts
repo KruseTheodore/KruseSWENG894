@@ -14,6 +14,7 @@ import { TokenInterceptor } from './token-interceptor';
 import { HomeComponent } from './home/home.component';
 import { InfoComponent } from './info/info.component';
 import { ReviewComponent } from './review/review.component';
+import { LogoutComponent } from './auth/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ReviewComponent } from './review/review.component';
     LoginComponent,
     HomeComponent,
     InfoComponent,
-    ReviewComponent
+    ReviewComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

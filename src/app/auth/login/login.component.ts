@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { HeaderComponent } from 'src/app/header/header.component';
 import { AuthService } from '../shared/auth.service';
 import { LoginPayload } from './login.payload';
 
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private header: HeaderComponent) {
     this.loginPayload = {
       username: '',
       password : ''
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginPayload)
     .subscribe(data => {
       console.log(data);
+      this.header.ngOnInit();
     })
   }
 
