@@ -1,0 +1,114 @@
+<div class="card position-absolute top-50 start-50 translate-middle" style="width: 40rem;">
+    <div class="card-body">
+      <h5 class="card-title">Review {{bourbon}}</h5>
+      <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label">Review Name</label>
+          <input type="text" [formControlName]="'name'" placeholder="Review Name" class="form-control" >
+          <span *ngIf="!reviewForm.get('name')?.valid && reviewForm.get('name')?.touched"> 
+            Please provide valid name.
+        </span>
+        </div>
+        <div>
+          <label class="form-label">Rating</label>
+          <select [formControlName]="'rating'" class="form-select mb-2">
+            <option type="number" value>Select Overall Rating</option>
+            <option type="number" value="1.0">1.0</option>
+            <option type="number" value="1.5">1.5</option>
+            <option type="number" value="2.0">2.0</option>
+            <option type="number" value="2.5">2.5</option>
+            <option type="number" value="3.0">3.0</option>
+            <option type="number" value="3.5">3.5</option>
+            <option type="number" value="4.0">4.0</option>
+            <option type="number" value="4.5">4.5</option>
+            <option type="number" value="5.0">5.0</option>
+          </select>
+          <span *ngIf="!reviewForm.get('rating')?.valid && reviewForm.get('rating')?.touched"> 
+            Please select a rating.
+        </span>
+        </div>
+        <div>
+            <label class="form-label">Taste</label>
+            <select [formControlName]="'taste'" class="form-select mb-2">
+              <option value>Select Taste Rating (Optional)</option>
+              <option type="number" value="1.0">1.0</option>
+              <option type="number" value="1.5">1.5</option>
+              <option type="number" value="2.0">2.0</option>
+              <option type="number" value="2.5">2.5</option>
+              <option type="number" value="3.0">3.0</option>
+              <option type="number" value="3.5">3.5</option>
+              <option type="number" value="4.0">4.0</option>
+              <option type="number" value="4.5">4.5</option>
+              <option type="number" value="5.0">5.0</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Aroma</label>
+            <select [formControlName]="'nose'" class="form-select mb-2">
+              <option value>Select Aroma Rating (Optional)</option>
+              <option type="number" value="1.0">1.0</option>
+              <option type="number" value="1.5">1.5</option>
+              <option type="number" value="2.0">2.0</option>
+              <option type="number" value="2.5">2.5</option>
+              <option type="number" value="3.0">3.0</option>
+              <option type="number" value="3.5">3.5</option>
+              <option type="number" value="4.0">4.0</option>
+              <option type="number" value="4.5">4.5</option>
+              <option type="number" value="5.0">5.0</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Mouthfeel</label>
+            <select [formControlName]="'mouthfeel'" class="form-select mb-2">
+              <option value>Select Mouthfeel Rating (Optional)</option>
+              <option type="number" value="1.0">1.0</option>
+              <option type="number" value="1.5">1.5</option>
+              <option type="number" value="2.0">2.0</option>
+              <option type="number" value="2.5">2.5</option>
+              <option type="number" value="3.0">3.0</option>
+              <option type="number" value="3.5">3.5</option>
+              <option type="number" value="4.0">4.0</option>
+              <option type="number" value="4.5">4.5</option>
+              <option type="number" value="5.0">5.0</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Value</label>
+            <select [formControlName]="'value'" class="form-select mb-2">
+              <option value>Select Value Rating (Optional)</option>
+              <option type="number" value="1.0">1.0</option>
+              <option type="number" value="1.5">1.5</option>
+              <option type="number" value="2.0">2.0</option>
+              <option type="number" value="2.5">2.5</option>
+              <option type="number" value="3.0">3.0</option>
+              <option type="number" value="3.5">3.5</option>
+              <option type="number" value="4.0">4.0</option>
+              <option type="number" value="4.5">4.5</option>
+              <option type="number" value="5.0">5.0</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Availability</label>
+            <select [formControlName]="'availability'" class="form-select mb-2">
+              <option value>Select Availability Rating (Optional)</option>
+              <option type="number" value="1.0">1.0</option>
+              <option type="number" value="1.5">1.5</option>
+              <option type="number" value="2.0">2.0</option>
+              <option type="number" value="2.5">2.5</option>
+              <option type="number" value="3.0">3.0</option>
+              <option type="number" value="3.5">3.5</option>
+              <option type="number" value="4.0">4.0</option>
+              <option type="number" value="4.5">4.5</option>
+              <option type="number" value="5.0">5.0</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Review Text (Optional)</label>
+            <textarea [formControlName]="'content'" type="text" class="form-control" rows="3"></textarea>
+          </div>
+        <button type="link" class="btn btn-primary me-2">Back</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+<p>{{bourbon}}</p>

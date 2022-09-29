@@ -40,5 +40,8 @@
     </div>
       <p class="card-text">{{review?.content}}</p>
       <a href="#" class="btn btn-primary">Go somewhere</a>
+      <span class="position-absolute bottom-0 end-0 my-1 mx-3" *ngIf="review.profile_id">
+        Reviewed By: {{review?.profile_id}}
+      </span>
     </div>
   </div>

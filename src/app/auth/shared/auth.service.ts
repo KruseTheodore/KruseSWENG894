@@ -71,7 +71,7 @@ export class AuthService {
   }
 
   getUsername() {
-    return this.localstorage.retrieve('name');
+    return this.localstorage.retrieve('username');
   }
 
   isLoggedIn(): boolean {

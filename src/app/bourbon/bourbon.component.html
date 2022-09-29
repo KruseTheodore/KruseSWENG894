@@ -11,7 +11,7 @@
                     <li class="list-group-item">Distillery: {{bourbon?.distil}}</li>
                     <li class="list-group-item">Proof: {{bourbon?.proof}}</li>
                   </ul>
-                  <a href="#{{bourbon?.name}}" class="btn btn-primary">Review {{bourbon?.name}}</a>
+                  <button routerLink= "/new-review" [queryParams]="{name: bourbon.name}" class="btn btn-primary">Review {{bourbon?.name}}</button>
                 </div>
               </div>
           </div>
