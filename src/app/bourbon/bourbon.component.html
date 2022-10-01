@@ -10,6 +10,8 @@
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">Distillery: {{bourbon?.distil}}</li>
                     <li class="list-group-item">Proof: {{bourbon?.proof}}</li>
+                    <li *ngIf="bourbon.rating" class="list-group-item">Average Overall Rating: {{bourbon?.rating}}</li>
+                    <li *ngIf="!bourbon.rating" class="list-group-item">Average Overall Rating: N/A</li>
                   </ul>
                   <button routerLink= "/new-review" [queryParams]="{name: bourbon.name}" class="btn btn-primary">Review {{bourbon?.name}}</button>
                 </div>
