@@ -11,7 +11,6 @@ import { BourbonService } from './bourbon.service';
 export class AppComponent implements OnInit{
 
   ngOnInit() {
-    //this.getBourbons();
   }
 
   

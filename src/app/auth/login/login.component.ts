@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { HeaderComponent } from 'src/app/header/header.component';
 import { AuthService } from '../shared/auth.service';
 import { LoginPayload } from './login.payload';
@@ -15,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   
 
-  constructor(private authService: AuthService, private header: HeaderComponent) {
+  constructor(private authService: AuthService, private header: HeaderComponent, private router: Router, private toastr: ToastrService) {
     this.loginPayload = {
       username: '',
       password : ''
@@ -41,6 +43,10 @@ export class LoginComponent implements OnInit {
     .subscribe(data => {
       console.log(data);
       this.header.ngOnInit();
+      this.toastr.success('Logged in successfully!');
+      this.router.navigate(['/home']);
+    }, () => {
+      this.toastr.error('Login failed please check credentials and retry.')
     })
   }
 

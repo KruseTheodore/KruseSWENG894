@@ -16,6 +16,8 @@ import { InfoComponent } from './info/info.component';
 import { ReviewComponent } from './review/review.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 import { NewReviewComponent } from './new-review/new-review.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { NewReviewComponent } from './new-review/new-review.component';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgxWebstorageModule.forRoot()
+    NgxWebstorageModule.forRoot(),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {

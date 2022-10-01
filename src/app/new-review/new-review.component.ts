@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ReviewService } from '../review.service';
 import { ReviewPayload } from './review.payload';
 
@@ -18,7 +19,8 @@ export class NewReviewComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
     private reviewService: ReviewService,
-    private router: Router) {
+    private router: Router,
+    private toastr: ToastrService) {
       this.reviewPayload = {
         name: '',
         rating: NaN,
@@ -57,7 +59,7 @@ export class NewReviewComponent implements OnInit {
       this.newReview();
     }
     else{
-      alert("Please fill out Review Name and Overall Rating and try submitting again.");
+      this.toastr.error('Please fill out Review Name and Overall Rating and try submitting again.');
     }
 
   }
@@ -73,7 +75,12 @@ export class NewReviewComponent implements OnInit {
     this.reviewPayload.availability = this.reviewForm.get('availability')?.value;
     this.reviewPayload.content = this.reviewForm.get('content')?.value;
 
-    this.reviewService.newReview(this.reviewPayload).subscribe();
+    this.reviewService.newReview(this.reviewPayload).subscribe(data => {
+      this.toastr.success('Review created!');
+      this.router.navigate(['/review']);
+    }, () => {
+      this.toastr.error('Failed to create review please refresh and try agian.');
+    });
     
   }
 
