@@ -35,13 +35,13 @@ export class LoginComponent implements OnInit {
   login(){
     this.loginPayload.username = this.loginForm.get('username')?.value;
     this.loginPayload.password = this.loginForm.get('password')?.value;
-    console.log(this.loginPayload);
-    var payload = JSON.stringify({"name": this.loginPayload.username, "password": this.loginPayload.password});
-    console.log(payload);
+    //console.log(this.loginPayload);
+    //var payload = JSON.stringify({"name": this.loginPayload.username, "password": this.loginPayload.password});
+    //console.log(payload);
 
     this.authService.login(this.loginPayload)
     .subscribe(data => {
-      console.log(data);
+      //console.log(data);
       this.header.ngOnInit();
       this.toastr.success('Logged in successfully!');
       this.router.navigate(['/home']);

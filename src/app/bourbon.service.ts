@@ -21,6 +21,7 @@ export class BourbonService {
       return this.http.get<Bourbon[]>(`${this.serverUrl}/bourbon`)
     }
 
+    /** 
     public addBourbon(bourbon: Bourbon): Observable<Bourbon> {
       return this.http.post<Bourbon>(`${this.serverUrl}/bourbon`, bourbon)
     }
@@ -32,4 +33,5 @@ export class BourbonService {
     public deleteBourbon(bourbonName: string): Observable<void> {
       return this.http.delete<void>(`${this.serverUrl}/bourbon/${bourbonName}`)
     }
+    */
 }

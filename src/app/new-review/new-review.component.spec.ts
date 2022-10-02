@@ -1,20 +1,29 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { LocalStorageService } from 'ngx-webstorage';
 
 import { NewReviewComponent } from './new-review.component';
 
 describe('NewReviewComponent', () => {
   let component: NewReviewComponent;
-  let fixture: ComponentFixture<NewReviewComponent>;
+  let toastrService: ToastrService;
+  const fakeActivatedRoute = {
+    snapshot: {
+      data: {}
+    }
+  }as ActivatedRoute;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewReviewComponent ]
+      imports: [HttpClientTestingModule],
+      providers: [ NewReviewComponent, {provide: ActivatedRoute, useValue: fakeActivatedRoute},
+         LocalStorageService, { provide: ToastrService, useValue: toastrService } ]
     })
-    .compileComponents();
 
-    fixture = TestBed.createComponent(NewReviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = TestBed.inject(NewReviewComponent);
+
   });
 
   it('should create', () => {
