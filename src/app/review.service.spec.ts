@@ -10,7 +10,8 @@ describe('ReviewService', () => {
   let service: ReviewService;
   let http: HttpClient;
   let httpController: HttpTestingController;
-
+  let localstorage: LocalStorageService
+;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -19,6 +20,11 @@ describe('ReviewService', () => {
     service = TestBed.inject(ReviewService);
     http = TestBed.inject(HttpClient);
     httpController = TestBed.inject(HttpTestingController);
+    localstorage = TestBed.inject(LocalStorageService);
+    let spy = spyOn<LocalStorageService, any>(localstorage, 'retrieve').and.callFake(function(){
+      return 'test';
+    });
+
   });
 
   afterEach(() => {

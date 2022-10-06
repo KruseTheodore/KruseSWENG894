@@ -11,6 +11,7 @@ describe('AuthService', () => {
   let service: AuthService;
   let http: HttpClient;
   let httpController: HttpTestingController;
+  let localstorage: LocalStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,6 +19,13 @@ describe('AuthService', () => {
       providers: [LocalStorageService]
     });
     service = TestBed.inject(AuthService);
+    localstorage = TestBed.inject(LocalStorageService);
+    httpController = TestBed.inject(HttpTestingController);
+
+    let spy = spyOn<LocalStorageService, any>(localstorage, 'retrieve').and.callFake(function(){
+      return 'test';
+    });
+
   });
 
   it('should be created', () => {
@@ -26,10 +34,12 @@ describe('AuthService', () => {
 
   it('should getJwtToken', () => {
     service.getJwtToken();
+    expect(service.getJwtToken()).toBe('test');
   });
 
   it('should getRefreshToken', () => {
     service.getRefreshToken();
+    expect(service.getRefreshToken()).toBe('test');
   });
   
   it('should signup', () => {
@@ -41,7 +51,7 @@ describe('AuthService', () => {
 
     service.signup(newSignupPayload).subscribe();
 
-    const req = httpController.expectOne('http://localhost:8080/BourbonCommunityReviews/profile/new');
+    const req = httpController.expectOne({url: 'http://localhost:8080/BourbonCommunityReviews/profile/new'});
     expect(req.request.method).toEqual('POST');
   });
 
@@ -57,4 +67,23 @@ describe('AuthService', () => {
     const req = httpController.expectOne('http://localhost:8080/BourbonCommunityReviews/profile/check/testName');
     expect(req.request.method).toEqual('GET');
   });
+
+  it('should logout', () => {
+    service.logout().subscribe();
+    const req = httpController.expectOne('http://localhost:8080/BourbonCommunityReviews/profile/logout');
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should refreshToken', () => {
+    service.refreshToken().subscribe();
+    const req = httpController.expectOne('http://localhost:8080/BourbonCommunityReviews/profile/refresh');
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should check logged in', () => {
+    service.isLoggedIn();
+    expect(service.isLoggedIn()).toBe(true);
+
+  });
+
 });
