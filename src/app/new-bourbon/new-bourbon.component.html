@@ -1,0 +1,30 @@
+<div class="card position-absolute top-50 start-50 translate-middle" style="width: 40rem;">
+    <div class="card-body">
+      <h5 class="card-title">Add New Bourbon</h5>
+      <form [formGroup]="bourbonForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label">Bourbon Name</label>
+          <input type="text" [formControlName]="'name'" placeholder="Bourbon Name" class="form-control" >
+          <span *ngIf="!bourbonForm.get('name')?.valid && bourbonForm.get('name')?.touched"> 
+            Please provide valid name.
+        </span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Bourbon Distillery</label>
+            <input type="text" [formControlName]="'distil'" placeholder="Bourbon Distillery" class="form-control" >
+            <span *ngIf="!bourbonForm.get('distil')?.valid && bourbonForm.get('distil')?.touched"> 
+              Please provide valid distillery.
+          </span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Bourbon Proof</label>
+            <input type="number" [formControlName]="'proof'" placeholder="Bourbon Proof" class="form-control" >
+            <span *ngIf="!bourbonForm.get('proof')?.valid && bourbonForm.get('proof')?.touched"> 
+              Please provide valid proof.
+          </span>
+          </div>
+        <button type="link" class="btn btn-primary me-2">Back</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>

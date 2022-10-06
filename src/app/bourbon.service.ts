@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Bourbon } from './bourbon';
 import { environment } from 'src/environments/environment';
+import { BourbonPayload } from './new-bourbon/bourbon.payload';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { environment } from 'src/environments/environment';
 export class BourbonService {
   private serverUrl = environment.testUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private httpClient: HttpClient) {
     
    }
 
@@ -18,14 +19,19 @@ export class BourbonService {
      * getBourbons
      */
     public getBourbons(): Observable<Bourbon[]> {
-      return this.http.get<Bourbon[]>(`${this.serverUrl}/bourbon`)
+      return this.httpClient.get<Bourbon[]>(`${this.serverUrl}/bourbon`)
     }
+
+    public addBourbon(bourbonPayload: BourbonPayload): Observable<any> {
+      const options = {headers: {'ContentType': "application/json"}};
+      return this.httpClient.post(`${this.serverUrl}/bourbon`, {
+      "name": bourbonPayload.name,
+      "distil": bourbonPayload.distil, 
+      "proof": bourbonPayload.proof}, options)
+    }
+
 
     /** 
-    public addBourbon(bourbon: Bourbon): Observable<Bourbon> {
-      return this.http.post<Bourbon>(`${this.serverUrl}/bourbon`, bourbon)
-    }
-
     public updateBourbon(bourbon: Bourbon): Observable<Bourbon[]> {
       return this.http.put<Bourbon[]>(`${this.serverUrl}/bourbon`, bourbon)
     }

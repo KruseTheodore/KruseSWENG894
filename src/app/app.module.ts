@@ -18,6 +18,7 @@ import { LogoutComponent } from './auth/logout/logout.component';
 import { NewReviewComponent } from './new-review/new-review.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NewBourbonComponent } from './new-bourbon/new-bourbon.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     InfoComponent,
     ReviewComponent,
     LogoutComponent,
-    NewReviewComponent
+    NewReviewComponent,
+    NewBourbonComponent
   ],
   imports: [
     BrowserModule,
