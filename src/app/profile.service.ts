@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Profile } from './profile';
+import { Review } from './review';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,20 @@ import { Profile } from './profile';
 export class ProfileService {
   private serverUrl = environment.testUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private httpClient: HttpClient) {
     
    }
 
     public getProfiles(): Observable<Profile[]> {
-      return this.http.get<Profile[]>(`${this.serverUrl}/profile`)
+      return this.httpClient.get<Profile[]>(`${this.serverUrl}/profile`)
+    }
+
+    public getProfileByName(name: string): Observable<Profile> {
+      return this.httpClient.get<Profile>(`${this.serverUrl}/profile/byname/${name}`)
+    }
+
+    public getReviewsOnProfile(name: string): Observable<Review[]> {
+       return this.httpClient.get<Review[]>(`${this.serverUrl}/review/profiles/${name}`)
     }
 
 }

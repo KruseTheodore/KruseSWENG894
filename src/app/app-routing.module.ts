@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { InfoComponent } from './info/info.component';
 import { NewBourbonComponent } from './new-bourbon/new-bourbon.component';
 import { NewReviewComponent } from './new-review/new-review.component';
+import { ProfileComponent } from './profile/profile.component';
 import { ReviewComponent } from './review/review.component';
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'review', component: ReviewComponent},
   {path: 'logout', component: LogoutComponent},
   {path: 'new-review', component: NewReviewComponent},
-  {path: 'new-bourbon', component: NewBourbonComponent}
+  {path: 'new-bourbon', component: NewBourbonComponent},
+  {path: 'profile', component: ProfileComponent}
 ];
 
 @NgModule({

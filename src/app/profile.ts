@@ -6,4 +6,5 @@ export interface Profile {
     password: string;
     bourbon_ids: string[];
     roles: Role[];
+    followed_names: string[];
 }
