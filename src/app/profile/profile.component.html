@@ -1,22 +1,37 @@
 <br>
-<h2 style="text-align: center">Profile</h2>
+<h2 style="text-align: center">{{profileName}}'s Profile</h2>
 <br>
 <div class="container">
     <div class="row align-items-start">
       <div class="col">
-        One of three columns
+        <h5>Followed Profiles</h5>
+        <div *ngIf="!hasFollowed">
+          No followed users.
+        </div>
+        <span *ngIf="hasFollowed">
+          <div  *ngFor="let followed of profile.followed_names" class="card mb-3 mx-auto">
+              <h5 class="card-header">{{followed}}</h5>
+            </div>
+          </span>
       </div>
       <div class="col">
-        One of three columns
-        <!--<span *ngIf="profile.bourbon_ids">
-        <div  *ngFor="let bourbon of profile.bourbon_ids" class="card mb-3 mx-auto" style="width: 90%" >
+        <h5>Bourbons Owned</h5> 
+        <div *ngIf="!hasBourbons">
+          No bourbons on profile.
+        </div>
+        <span *ngIf="hasBourbons">
+        <div  *ngFor="let bourbon of profile.bourbon_ids" class="card mb-3 mx-auto">
             <h5 class="card-header">{{bourbon}}</h5>
           </div>
-        </span>-->
+        </span>
         </div> 
       <div class="col">
-        <div class="container">
-            <div *ngFor="let review of reviews" class="card mb-3 mx-auto" style="width: 90%" >
+        <h5>Reviews Created</h5>
+        <div *ngIf="!hasReviewed">
+          No reviews created yet.
+        </div>
+        <div *ngIf="hasReviewed" class="container">
+            <div *ngFor="let review of reviews" class="card mb-3 mx-auto">
                 <h5 class="card-header">{{review?.name}}</h5>
                 <div class="card-body">
                   <h5 class="card-title">Bourbon: {{review?.bourbon_id}}</h5>
