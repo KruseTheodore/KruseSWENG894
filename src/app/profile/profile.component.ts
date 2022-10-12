@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Review } from '../review';
 import { Bourbon } from '../bourbon';
+import { AuthService } from '../auth/shared/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -20,12 +22,22 @@ export class ProfileComponent implements OnInit {
   public hasBourbons: Boolean;
   public hasFollowed: Boolean;
   public hasReviewed: Boolean;
+  public yourProfile: boolean;
+  public storedProfile: string;
+  public profileFollowed: Boolean;
 
-  constructor(private profileService: ProfileService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private profileService: ProfileService, private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.storedProfile = this.authService.getUsername();
     if(this.activatedRoute.snapshot.queryParamMap.get('name') != null){
       this.profileName = String(this.activatedRoute.snapshot.queryParamMap.get('name'));
+    }
+    if(this.profileName == this.storedProfile){
+      this.yourProfile = true;
+    }
+    else{
+      this.yourProfile = false;
     }
     this.getProfile();
     this.getReviewsOnProflie();
@@ -52,6 +64,22 @@ export class ProfileComponent implements OnInit {
         alert(error.message);
       }
     );
+
+    if(!this.yourProfile){
+      this.profileService.getProfileByName(this.storedProfile).subscribe(
+        (response: Profile)=> {
+          if(response.followed_names.includes(this.profileName)){
+            this.profileFollowed = true;
+          }
+          else{
+            this.profileFollowed = false;
+          }
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+    }
   }
 
   getReviewsOnProflie(){
@@ -73,6 +101,24 @@ export class ProfileComponent implements OnInit {
 
   getBourbonsOnProfile(){
 
+  }
+
+  followUser(){
+    this.profileService.followUser(this.storedProfile, this.profileName).subscribe(data => {
+      this.toastr.success('User Followed');
+      this.ngOnInit();
+    }, () => {
+      this.toastr.error('Failed to follow please refresh and try agian.');
+    });
+  }
+
+  unfollowUser(){
+    this.profileService.unfollowUser(this.storedProfile, this.profileName).subscribe(data => {
+      this.toastr.success('User Unfollowed');
+      this.ngOnInit();
+    }, () => {
+      this.toastr.error('Failed to unfollow please refresh and try agian.');
+    });
   }
 
 }

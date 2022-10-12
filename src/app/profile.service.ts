@@ -27,4 +27,12 @@ export class ProfileService {
        return this.httpClient.get<Review[]>(`${this.serverUrl}/review/profiles/${name}`)
     }
 
+    public followUser(name: string, follow: string): Observable<any> {
+      return this.httpClient.post(`${this.serverUrl}/profile/follow/${name}/${follow}`, null)
+    }
+
+    public unfollowUser(name: string, follow: string): Observable<any> {
+      return this.httpClient.delete(`${this.serverUrl}/profile/unfollow/${name}/${follow}`)
+    }
+
 }
