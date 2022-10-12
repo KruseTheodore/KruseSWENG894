@@ -20,6 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewBourbonComponent } from './new-bourbon/new-bourbon.component';
 import { ProfileComponent } from './profile/profile.component';
+import { FollowedReviewsComponent } from './followed-reviews/followed-reviews.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ProfileComponent } from './profile/profile.component';
     LogoutComponent,
     NewReviewComponent,
     NewBourbonComponent,
-    ProfileComponent
+    ProfileComponent,
+    FollowedReviewsComponent
   ],
   imports: [
     BrowserModule,

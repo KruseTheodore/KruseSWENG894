@@ -8,7 +8,7 @@
       <h2 *ngIf="!yourProfile" style="text-align: center">{{profileName}}'s Profile</h2>
     </div>
     <div class="col">
-      <button *ngIf="yourProfile" class="btn btn-success" style="float: right;">View followed users' reviews</button>
+      <a *ngIf="yourProfile" routerLink= "/followed-reviews" class="btn btn-success" href="#followed-reviews" role="button" style="float: right;">View followed users' reviews</a>
       <span *ngIf="!yourProfile">
         <button *ngIf="!profileFollowed" class="btn btn-success" style="float: right;" (click)="followUser()">Follow User</button>
         <button *ngIf="profileFollowed" class="btn btn-danger" style="float: right;" (click)="unfollowUser()">Unfollow User</button>
