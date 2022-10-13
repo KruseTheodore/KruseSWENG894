@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 
 import { BourbonService } from './bourbon.service';
+import { BourbonPayload } from './new-bourbon/bourbon.payload';
 
 describe('BourbonService', () => {
   let service: BourbonService;
@@ -30,6 +31,18 @@ describe('BourbonService', () => {
     service.getBourbons().subscribe();
     const req = httpController.expectOne('http://localhost:8080/BourbonCommunityReviews/bourbon');
     expect(req.request.method).toEqual('GET');
+  });
+
+  it('should addBourbon', () => {
+    let newBourbonPayload: BourbonPayload;
+    newBourbonPayload = {
+      name: 'testName',
+      distil: 'testDistil',
+      proof: 100.0,
+    };
+    service.addBourbon(newBourbonPayload).subscribe();
+    const req = httpController.expectOne('http://localhost:8080/BourbonCommunityReviews/bourbon');
+    expect(req.request.method).toEqual('POST');
   });
 
 });

@@ -15,11 +15,6 @@ describe('NewReviewComponent', () => {
   let localstorage: LocalStorageService;
   let reviewService: ReviewService;
   let routerStub = { navigate: jasmine.createSpy('navigate') };
-  const fakeActivatedRoute = {
-    snapshot: {
-      data: {}
-    }
-  }as ActivatedRoute;
 
 
 
