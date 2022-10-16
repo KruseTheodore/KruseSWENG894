@@ -5,14 +5,19 @@
       <div class="dropdown">
         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
           Sort Options
-        </a>
-      
+        </a>      
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
           <li><a class="dropdown-item" (click)="sortBourbonsRating()">Sort by rating</a></li>
           <li><a class="dropdown-item" (click)="sortBourbonsProof()">Sort by proof</a></li>
           <li><a class="dropdown-item" (click)="sortBourbonsName()">Sort by name</a></li>
           <li><a class="dropdown-item" (click)="sortBourbonsDistil()">Sort by distillery</a></li>
         </ul>
+        <a class="btn btn-secondary" style="float: right;" role="button" (click)="createSearchForm()">
+          Search Bourbons
+        </a>
+        <a *ngIf="reset" class="btn btn-danger" style="float: right;" role="button" (click)="ngOnInit()">
+          Reset Search
+        </a>
       </div>
     </div>
     <div class="col">
@@ -39,5 +44,27 @@
                 </div>
               </div>
           </div>
+        </div>
+      </div>
+      
+      <div *ngIf="search" class="card position-absolute top-50 start-50 translate-middle" style="width: 40rem;">
+        <div class="card-body">
+          <h5 class="card-title">Search Bourbons</h5>
+          <form [formGroup]="searchForm" (ngSubmit)="searchBourbons()">
+            <div class="mb-3">
+              <label class="form-label">Search</label>
+              <input type="text" [formControlName]="'text1'" placeholder="Search" class="form-control" >
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Minimum Proof</label>
+                <input type="number" [formControlName]="'proof1'" placeholder="Bourbon Distillery" class="form-control" >
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Maximum Proof</label>
+                <input type="number" [formControlName]="'proof2'" placeholder="Bourbon Proof" class="form-control" >
+              </div>
+            <button type="link" class="btn btn-primary me-2">Back</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
       </div>

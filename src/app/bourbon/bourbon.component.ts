@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Bourbon } from '../bourbon';
 import { BourbonService } from '../bourbon.service';
 
@@ -10,10 +11,14 @@ import { BourbonService } from '../bourbon.service';
 })
 export class BourbonComponent implements OnInit {
   public bourbons: Bourbon[];
+  public search: Boolean;
+  searchForm: FormGroup;
+  public reset: Boolean;
 
   constructor(private bourbonService: BourbonService) { }
 
   ngOnInit() {
+    this.reset = false;
     this.getBourbons();
   }
 
@@ -114,5 +119,53 @@ export class BourbonComponent implements OnInit {
     sortedBourbons[firstIndex] = sortedBourbons[secondIndex];
     sortedBourbons[secondIndex] = temp;
     }
+
+    createSearchForm(){
+      this.searchForm = new FormGroup({
+        text1: new FormControl(),
+        proof1: new FormControl(),
+        proof2: new FormControl()
+      });
+      this.search = true;
+    }
+
+    searchBourbons(){
+      var min: number;
+      var max: number;
+      this.search = false;
+      if (this.searchForm.get('proof1')?.value){
+        min = this.searchForm.get('proof1')?.value;
+      } 
+      else{
+        min = 0;
+      }
+      if (this.searchForm.get('proof2')?.value){
+        max = this.searchForm.get('proof2')?.value;
+      } 
+      else{
+        max = 200;
+      }
+      this.getProofRange(min, max);
+      this.reset = true;
+      
+    }
+
+    getProofRange(min: number, max: number){
+      var len = this.bourbons.length;
+      var i = 0;
+      while (i < len){
+        if (this.bourbons[i]?.proof < min){
+          this.bourbons.splice(i, 1);
+        }
+        else if (this.bourbons[i]?.proof > max){
+          this.bourbons.splice(i, 1);
+        }
+        else{
+          ++i;
+        }
+      };
+      }
+
+    
 
 }

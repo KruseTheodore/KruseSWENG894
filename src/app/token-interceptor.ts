@@ -50,6 +50,7 @@ export class TokenInterceptor implements HttpInterceptor{
 
             )
         }
+        this.authService.logout();
         return throwError(() => new Error('Please Login.'));
 
     }
