@@ -61,14 +61,9 @@ export class BourbonComponent implements OnInit {
     var stop;
     for (i=0; i < len; i++){
       for (j=0, stop=len-i; j < stop; j++){
-        if (this.bourbons[j]?.proof != undefined && typeof this.bourbons[j+1]?.proof != undefined){
           if (this.bourbons[j]?.proof < this.bourbons[j+1]?.proof){
             this.swap(this.bourbons, j, j+1);
           };
-        }
-        else if (this.bourbons[j+1]?.proof != undefined){
-          this.swap(this.bourbons, j, j+1);
-        }
         
       };
     };
@@ -81,14 +76,9 @@ export class BourbonComponent implements OnInit {
     var stop;
     for (i=0; i < len; i++){
       for (j=0, stop=len-i; j < stop; j++){
-        if (this.bourbons[j]?.name != undefined && typeof this.bourbons[j+1]?.name != undefined){
           if (this.bourbons[j]?.name > this.bourbons[j+1]?.name){
             this.swap(this.bourbons, j, j+1);
           };
-        }
-        else if (this.bourbons[j+1]?.name != undefined){
-          this.swap(this.bourbons, j, j+1);
-        }
         
       };
     };
@@ -101,14 +91,10 @@ export class BourbonComponent implements OnInit {
     var stop;
     for (i=0; i < len; i++){
       for (j=0, stop=len-i; j < stop; j++){
-        if (this.bourbons[j]?.distil != undefined && typeof this.bourbons[j+1]?.distil != undefined){
           if (this.bourbons[j]?.distil > this.bourbons[j+1]?.distil){
             this.swap(this.bourbons, j, j+1);
           };
-        }
-        else if (this.bourbons[j+1]?.distil != undefined){
-          this.swap(this.bourbons, j, j+1);
-        }
+
         
       };
     };
