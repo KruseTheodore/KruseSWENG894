@@ -84,7 +84,12 @@ export class AuthService {
      else{
       return true;
      }
-  
+  }
+
+  clearStorage(){
+    this.localstorage.clear('authenticationToken');
+    this.localstorage.clear('refreshToken');
+    this.localstorage.clear('username');
   }
 }
 

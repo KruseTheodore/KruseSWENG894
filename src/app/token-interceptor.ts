@@ -50,8 +50,8 @@ export class TokenInterceptor implements HttpInterceptor{
 
             )
         }
-        this.authService.logout();
-        return throwError(() => new Error('Please Login.'));
+        this.authService.clearStorage();
+        return throwError(() => new Error('Login time limit reached. Please refresh the page to login again.'));
 
     }
 }
