@@ -118,6 +118,9 @@ export class BourbonComponent implements OnInit {
     searchBourbons(){
       var min: number;
       var max: number;
+      var match: string;
+      var noMatch: Boolean;
+      noMatch = false;
       this.search = false;
       if (this.searchForm.get('proof1')?.value){
         min = this.searchForm.get('proof1')?.value;
@@ -131,7 +134,19 @@ export class BourbonComponent implements OnInit {
       else{
         max = 200;
       }
-      this.getProofRange(min, max);
+      if(this.searchForm.get('proof2')?.value || this.searchForm.get('proof1')?.value){
+        this.getProofRange(min, max);
+      }
+      
+      if (this.searchForm.get('text1')?.value){
+        match = this.searchForm.get('text1')?.value;
+        noMatch = this.getMatches(match);
+      } 
+
+      if (noMatch){
+        
+      }
+
       this.reset = true;
       
     }
@@ -150,7 +165,32 @@ export class BourbonComponent implements OnInit {
           ++i;
         }
       };
+    }
+
+    getMatches(match: string): Boolean{
+      var temp: Bourbon[];
+      temp = JSON.parse(JSON.stringify(this.bourbons));
+      var len = temp.length;
+      var i = 0;
+      while (i < len){
+        if (temp[i]?.name.search(new RegExp(match, "i")) == -1 && temp[i]?.distil.search(new RegExp(match, "i")) == -1){
+          temp.splice(i, 1);
+        }
+        else{
+          ++i;
+        }
+      };
+      console.log(temp.length);
+      console.log(this.bourbons.length);
+      if (temp.length != 0){
+        this.bourbons = temp;
+        return false;
       }
+      else{
+        return true;
+      }
+    }
+
 
     
 
