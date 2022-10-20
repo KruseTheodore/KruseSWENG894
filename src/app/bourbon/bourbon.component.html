@@ -28,6 +28,7 @@
     </div>
   </div>
 <br>
+<h4 *ngIf="noMatch" style="text-align: center">No direct matches found closest 5 matches are shown. <br></h4>
     <div class="container">
         <div class="row align-items-center gy-5">
           <div *ngFor="let bourbon of bourbons" class="col">

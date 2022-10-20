@@ -14,11 +14,13 @@ export class BourbonComponent implements OnInit {
   public search: Boolean;
   searchForm: FormGroup;
   public reset: Boolean;
+  public noMatch: Boolean;
 
   constructor(private bourbonService: BourbonService) { }
 
   ngOnInit() {
     this.reset = false;
+    this.noMatch = false;
     this.getBourbons();
   }
 
@@ -119,8 +121,7 @@ export class BourbonComponent implements OnInit {
       var min: number;
       var max: number;
       var match: string;
-      var noMatch: Boolean;
-      noMatch = false;
+      this.noMatch = false;
       this.search = false;
       if (this.searchForm.get('proof1')?.value){
         min = this.searchForm.get('proof1')?.value;
@@ -140,12 +141,11 @@ export class BourbonComponent implements OnInit {
       
       if (this.searchForm.get('text1')?.value){
         match = this.searchForm.get('text1')?.value;
-        noMatch = this.getMatches(match);
+        this.noMatch = this.getMatches(match);
+        if (this.noMatch){
+          this.getClosestMatch(match);
+        }
       } 
-
-      if (noMatch){
-        
-      }
 
       this.reset = true;
       
@@ -180,8 +180,6 @@ export class BourbonComponent implements OnInit {
           ++i;
         }
       };
-      console.log(temp.length);
-      console.log(this.bourbons.length);
       if (temp.length != 0){
         this.bourbons = temp;
         return false;
@@ -189,6 +187,74 @@ export class BourbonComponent implements OnInit {
       else{
         return true;
       }
+    }
+
+    getClosestMatch(match: string){
+      var len = this.bourbons.length;
+      var i = 0;
+      var strLen1 = match.length;
+      var strLen2 = 0;
+      var matrix: number[][] = [];
+      var subCost = 0;
+      var rank: number[] = [];
+      var minIndex: number;
+      var closeBourbons: Bourbon[] = [];
+
+      while (i < len){
+        strLen2 = this.bourbons[i].name.length;
+        matrix = this.createMatrix(match, this.bourbons[i].name);
+        for(var j = 0; j < strLen1 + 1; j++){
+          for(var k = 0; k < strLen2 + 1; k++){
+            if (match.charAt(j-1).toLowerCase() == this.bourbons[i].name.charAt(k-1).toLowerCase()){
+              subCost = 0;
+            }
+            else{
+              subCost = 1;
+            }
+            if (j != 0 && k != 0){
+              matrix[j][k] = Math.min(matrix[j-1][k] + 1, matrix[j][k - 1] + 1, matrix[j-1][k-1] + subCost);
+            }
+            else if (k != 0){
+              matrix[j][k] = matrix[j][k - 1] + 1;
+            }
+            else if (j != 0){
+              matrix[j][k] = matrix[j-1][k] + 1;
+            }
+            else{
+              matrix[j][k] = 0;
+            }
+
+          }
+        }
+        rank[i] = matrix[strLen1][strLen2];
+
+        i++;
+
+      };
+
+      for(var l = 0; l < 5; l++){
+        minIndex = rank.indexOf(Math.min(...rank));
+        closeBourbons[l] = this.bourbons[minIndex];
+        this.bourbons.splice(minIndex, 1);
+      }
+
+      this.bourbons = closeBourbons;
+
+    }
+
+    createMatrix(match: string, check: string): number[][]{
+      var strLen1 = match.length;
+      var strLen2 = check.length;
+      var matrix: number[][] = [];
+      for(var j = 0; j < strLen1 + 1; j++){
+        matrix[j] = [];
+        for(var k = 0; k < strLen2 + 1; k++){
+          matrix[j][k] = 0;
+        }
+      }
+
+      return matrix;
+
     }
 
 
