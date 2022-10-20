@@ -108,16 +108,30 @@ describe('BourbonComponent', () => {
     expect(component.createSearchForm).toBeTruthy();
   });
 
-  it('should searchBourbons', () => {
+  it('should searchBourbons proof range', () => {
     component.createSearchForm();
     let newSpy = spyOn(component, 'getProofRange');
-    component.searchBourbons();
-    expect(newSpy).toHaveBeenCalledOnceWith(0, 200);
     component.searchForm.controls['proof1'].setValue(100.0);
     component.searchForm.controls['proof2'].setValue(101.0);
     component.searchBourbons();
     expect(newSpy).toHaveBeenCalledWith(100.0, 101.0);
-    expect(newSpy).toHaveBeenCalledWith(0, 200);
+  });
+
+  it('should searchBourbons matches', () => {
+    component.createSearchForm();
+    let newSpy = spyOn(component, 'getMatches');
+    component.searchForm.controls['text1'].setValue("Blantons");
+    component.searchBourbons();
+    expect(newSpy).toHaveBeenCalledWith("Blantons");
+  });
+
+  it('should searchBourbons closest match', () => {
+    component.createSearchForm();
+    let newSpy = spyOn(component, 'getClosestMatch');
+    let newSpy1 = spyOn(component, 'getMatches').and.returnValue(true);
+    component.searchForm.controls['text1'].setValue("test");
+    component.searchBourbons();
+    expect(newSpy).toHaveBeenCalledWith("test");
   });
 
   it('should getProofRange', () => {
@@ -131,6 +145,60 @@ describe('BourbonComponent', () => {
     component.getProofRange(96.0, 101.0);
     expect(component.bourbons).toEqual([
       {name: 'tastName', distil: 'testDistil', proof: 100.0, rating: 4.0}
+    ])
+  });
+
+  it('should getMatches', () => {
+    let bourbons: Bourbon[];
+    bourbons = [
+      {name: 'tastName', distil: 'testDistil', proof: 100.0, rating: 4.0},
+      {name: 'tastName1', distil: 'testDistil1', proof: 95.0, rating: 3.0},
+      {name: 'tastName2', distil: 'testDistil2', proof: 110.0, rating: 2.0}
+    ]
+    component.bourbons = bourbons;
+    let test = component.getMatches("tastName1");
+    expect(component.bourbons).toEqual([
+      {name: 'tastName1', distil: 'testDistil1', proof: 95.0, rating: 3.0}
+    ])
+    expect(test).toEqual(false);
+  });
+
+  it('should getNoMatches', () => {
+    let bourbons: Bourbon[];
+    bourbons = [
+      {name: 'tastName', distil: 'testDistil', proof: 100.0, rating: 4.0},
+      {name: 'tastName1', distil: 'testDistil1', proof: 95.0, rating: 3.0},
+      {name: 'tastName2', distil: 'testDistil2', proof: 110.0, rating: 2.0}
+    ]
+    component.bourbons = bourbons;
+    let test = component.getMatches("tastName10");
+    expect(test).toEqual(true);
+  });
+
+  it('should createMatrix', () => {
+    let test = component.createMatrix("tast", "Name");
+    expect(test).toEqual([[0, 0, 0, 0, 0,], [0, 0, 0, 0, 0,], [0, 0, 0, 0, 0,], [0, 0, 0, 0, 0,], [0, 0, 0, 0, 0,]]);
+  });
+
+  it('should getClosestMatches', () => {
+    let bourbons: Bourbon[];
+    bourbons = [
+      {name: 'tastName', distil: 'testDistil', proof: 100.0, rating: 4.0},
+      {name: 'tastName1', distil: 'testDistil1', proof: 95.0, rating: 3.0},
+      {name: 'tastName20', distil: 'testDistil2', proof: 110.0, rating: 2.0},
+      {name: 'tastName2099', distil: 'testDistil2', proof: 110.0, rating: 2.0},
+      {name: 'tastName209999', distil: 'testDistil2', proof: 110.0, rating: 2.0},
+      {name: 'notevenclosebaby', distil: 'testDistil2', proof: 110.0, rating: 2.0}
+    ]
+    component.bourbons = bourbons;
+    let newSpy1 = spyOn(component, 'getMatches').and.returnValue(true);
+    component.getClosestMatch("test");
+    expect(component.bourbons).toEqual([
+      {name: 'tastName', distil: 'testDistil', proof: 100.0, rating: 4.0},
+      {name: 'tastName1', distil: 'testDistil1', proof: 95.0, rating: 3.0},
+      {name: 'tastName20', distil: 'testDistil2', proof: 110.0, rating: 2.0},
+      {name: 'tastName2099', distil: 'testDistil2', proof: 110.0, rating: 2.0},
+      {name: 'tastName209999', distil: 'testDistil2', proof: 110.0, rating: 2.0}
     ])
   });
 
