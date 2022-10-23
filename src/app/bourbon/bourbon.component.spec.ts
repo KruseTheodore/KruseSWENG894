@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { AuthService } from '../auth/shared/auth.service';
 import { Bourbon } from '../bourbon';
 import { BourbonService } from '../bourbon.service';
 
@@ -10,11 +11,12 @@ describe('BourbonComponent', () => {
   let component: BourbonComponent;
   let fixture: ComponentFixture<BourbonComponent>;
   let bourbonService: BourbonService
+  const authService = {getUsername: () => 'test'} as AuthService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers:[BourbonService],
+      providers:[BourbonService, {provide: AuthService, useValue: authService}],
       declarations: [ BourbonComponent ]
     })
     .compileComponents();

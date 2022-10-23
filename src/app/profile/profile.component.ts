@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
   public profileFollowed: Boolean;
 
   constructor(private profileService: ProfileService, private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthService, private toastr: ToastrService) { 
-    //this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {

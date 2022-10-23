@@ -1,8 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AuthService } from '../auth/shared/auth.service';
 import { Bourbon } from '../bourbon';
 import { BourbonService } from '../bourbon.service';
+import { Profile } from '../profile';
+import { ProfileService } from '../profile.service';
+import { Review } from '../review';
 
 @Component({
   selector: 'app-bourbon',
@@ -15,10 +19,23 @@ export class BourbonComponent implements OnInit {
   searchForm: FormGroup;
   public reset: Boolean;
   public noMatch: Boolean;
+  public storedProfile: string;
+  public profile: Profile;
+  public hasBourbons: Boolean;
+  public reviews: Review[];
+  public hasReviewed: Boolean;
+  public toRemove: string[] = [];
+  public toDistilIncrease: string[] = [];
+  public toBourbonIncrease: string[] = [];
+  public dislikedBourbon: string[] = [];
+  public similarProfiles: string[] = [];
+  public similarReviews: Review[] = [];
 
-  constructor(private bourbonService: BourbonService) { }
+
+  constructor(private bourbonService: BourbonService, private authService: AuthService, private profileService: ProfileService) { }
 
   ngOnInit() {
+    this.storedProfile = this.authService.getUsername();
     this.reset = false;
     this.noMatch = false;
     this.getBourbons();
@@ -254,6 +271,229 @@ export class BourbonComponent implements OnInit {
       }
 
       return matrix;
+
+    }
+
+    getRecommended(){
+      this.getOwned();
+
+      
+      
+    }
+
+    getOwned(){
+      this.profileService.getProfileByName(this.storedProfile).subscribe(
+        (response: Profile)=> {
+          this.profile = response;
+          if(this.profile.bourbon_ids != undefined && this.profile.bourbon_ids.length != 0){
+            this.hasBourbons = true;
+          }
+          else{
+            this.hasBourbons = false;
+          }
+          
+     
+      if (this.hasBourbons){
+        this.toRemove =this.profile.bourbon_ids;
+      }
+      this.getReviewed();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+      
+      
+    }
+
+    getReviewed(){
+      this.profileService.getReviewsOnProfile(this.storedProfile).subscribe(
+        (response: Review[])=> {
+          this.reviews = response;
+          if(this.reviews != undefined && this.reviews.length != 0){
+            this.hasReviewed = true;
+          }
+          else{
+            this.hasReviewed = false;
+          }
+          
+
+      if (this.hasReviewed){
+        this.reviews.forEach(review => {
+          if(!this.toRemove.includes(review.bourbon_id)){
+            this.toRemove.push(review.bourbon_id)
+          }          
+        }
+        )
+          
+      }
+      if (this.hasReviewed){
+        this.modifyRatings();
+      }
+      
+      
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+      
+    }
+
+    removeOwned(){
+      var len = this.bourbons.length;
+      var i = 0;
+      while (i < len){
+        if(this.toRemove.includes(this.bourbons[i]?.name)){
+          this.bourbons.splice(i, 1);
+        }
+        else{
+          ++i;
+        }
+          
+      };
+      
+      
+    }
+
+    modifyRatings(){
+      this.getHighRatings();
+      this.getLowRatings();
+      var wait = new Promise<void>((resolve) => {
+        this.dislikedBourbon.forEach(async (badBourbon, i) => {
+          await this.getProfilesWhoDisliked(badBourbon).then(() => {
+           this.similarProfiles.forEach(async (name, j) => {
+             await this.getReviewsFromSimilar(name).then(() => {
+              if ((i+1)*(j+1) == this.dislikedBourbon.length * this.similarProfiles.length){
+                resolve();
+              }  
+             })
+           })
+         })
+       })
+       
+      });
+      wait.then(() => {
+        this.removeOwned();
+        var i = 0;
+        var len = this.bourbons.length;
+        while (i < len){
+            if(this.toBourbonIncrease.includes(this.bourbons[i].name)){
+              this.bourbons[i].rating = this.bourbons[i].rating * 1.1;
+            }
+            if(this.toDistilIncrease.includes(this.bourbons[i].distil)){
+              this.bourbons[i].rating = this.bourbons[i].rating * 1.1;
+            }
+            ++i;
+        };
+
+        this.sortBourbonsRating();
+        this.topTen();
+
+        i = 0;
+        len = this.bourbons.length;
+        while (i < len){
+            if(this.toBourbonIncrease.includes(this.bourbons[i].name)){
+              this.bourbons[i].rating = this.bourbons[i].rating / 1.1;
+            }
+            if(this.toDistilIncrease.includes(this.bourbons[i].distil)){
+              this.bourbons[i].rating = this.bourbons[i].rating / 1.1;
+            }
+            ++i;
+        };
+      })
+
+    }
+
+    getHighRatings(){
+      var len = this.bourbons.length;
+      var i = 0;
+     
+      this.reviews.forEach(review => {
+        if(review.rating >= 4.0){
+          while (i < len){
+            if(this.bourbons[i]?.name == review.bourbon_id && !this.toDistilIncrease.includes(this.bourbons[i]?.distil)){
+              this.toDistilIncrease.push(this.bourbons[i]?.distil)
+              i = len - 1;
+            }
+              ++i;
+          };
+          
+          i = 0;
+            
+        }          
+      })
+      
+    }
+
+    getLowRatings(){
+      var len = this.bourbons.length;
+      var i = 0;
+      
+     
+      this.reviews.forEach(review => {
+        if(review.rating <= 2.0){
+          while (i < len){
+            if(this.bourbons[i]?.name == review.bourbon_id && !this.dislikedBourbon.includes(this.bourbons[i]?.name)){
+              this.dislikedBourbon.push(this.bourbons[i]?.name)
+              i = len - 1;
+            }
+              ++i;
+          };
+          
+          i = 0;
+            
+        }          
+      })
+
+    }
+
+    async getProfilesWhoDisliked(badBourbon: string){
+      const badBourbonReviews = await this.bourbonService.getReviewsOnBourbon(badBourbon).toPromise();
+        if (badBourbonReviews != undefined){
+          badBourbonReviews.forEach(badReview => {
+            if (badReview.rating <= 2.0 && badReview.profile_id != this.storedProfile){
+              this.similarProfiles.push(badReview.profile_id)
+            }
+          })
+        }
+
+        /** 
+        await this.bourbonService.getReviewsOnBourbon(badBourbon).subscribe(
+          (response: Review[])=> {
+            response.forEach(badReview => {
+              if (badReview.rating <= 2.0){
+                this.similarProfiles.push(badReview.profile_id)
+              }
+              
+            })
+            console.log(this.similarProfiles)
+          },
+          (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        );
+        */
+    }
+
+    async getReviewsFromSimilar(name: string){
+      const bourbonReviews = await this.profileService.getReviewsOnProfile(name).toPromise();
+      if (bourbonReviews != undefined){
+        bourbonReviews.forEach(goodReview => {
+          if (goodReview.rating >= 4.0){
+            this.toBourbonIncrease.push(goodReview.bourbon_id)
+          }
+        })
+      }
+
+    }
+
+
+    topTen(){
+      var i = 5;
+      while (i < this.bourbons.length){
+        this.bourbons.splice(i, 1);
+      }
 
     }
 

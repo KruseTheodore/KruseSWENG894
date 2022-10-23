@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Bourbon } from './bourbon';
 import { environment } from 'src/environments/environment';
 import { BourbonPayload } from './new-bourbon/bourbon.payload';
+import { Review } from './review';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,10 @@ export class BourbonService {
       "distil": bourbonPayload.distil, 
       "proof": bourbonPayload.proof}, options)
     }
+
+    public getReviewsOnBourbon(name: string): Observable<Review[]> {
+      return this.httpClient.get<Review[]>(`${this.serverUrl}/review/bourbons/${name}`)
+   }
 
 
     /** 
