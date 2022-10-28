@@ -10,6 +10,7 @@
     <div class="col">
       <a *ngIf="yourProfile" routerLink= "/followed-reviews" class="btn btn-success" href="#followed-reviews" role="button" style="float: right;">View followed users' reviews</a>
       <span *ngIf="!yourProfile">
+        <a routerLink= "/messages" [queryParams]="{usernameto: profileName, usernamefrom: storedProfile}" class="btn btn-success" href="#messages" role="button" style="float: left;">Message User</a>
         <button *ngIf="!profileFollowed" class="btn btn-success" style="float: right;" (click)="followUser()">Follow User</button>
         <button *ngIf="profileFollowed" class="btn btn-danger" style="float: right;" (click)="unfollowUser()">Unfollow User</button>
       </span>

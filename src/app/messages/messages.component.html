@@ -1,0 +1,64 @@
+<br>
+<div class="row align-items-start">
+    <div class="col">
+     
+    </div>
+    <div class="col">
+        <h2 style="text-align: center">Conversation with {{usernameTo}}</h2>
+    </div>
+    <div class="col">
+      <a *ngIf="!fullConvo" class="btn btn-secondary me-3" style="float: right;" role="button" (click)="getFullConvo()">
+        See Full Conversation
+      </a>
+      <a *ngIf="fullConvo" class="btn btn-secondary me-3" style="float: right;" role="button" (click)="getFullConvo()">
+        View only most recent messages
+      </a>
+    </div>
+  </div>
+
+<br>
+<body>
+    <div *ngIf="fullConvo || !over5">
+    <div *ngFor="let message of conversation">
+        <div *ngIf="message.userNameFrom == usernameFrom" class="card mb-3 me-3 mx-auto" style="width: 70%; float: right" >
+            <h5 class="card-header">Sent to: {{message?.userNameTo}}</h5>
+            <div class="card-body">      
+            <p class="card-text">{{message?.message}}</p>
+            </div>
+        </div>
+        <div *ngIf="message.userNameFrom != usernameFrom " class="card mb-3 ms-3 mx-auto" style="width: 70%; float: left" >
+            <h5 class="card-header">From: {{message?.userNameFrom}}</h5>
+            <div class="card-body">      
+            <p class="card-text">{{message?.message}}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div *ngIf="!fullConvo && over5">
+    <div *ngFor="let message of conversation | slice:conversationLen -5:conversationLen; let i=index">
+    <div *ngIf="message.userNameFrom == usernameFrom" class="card mb-3 me-3 mx-auto" style="width: 70%; float: right" >
+        <h5 class="card-header">Sent to: {{message?.userNameTo}}</h5>
+        <div class="card-body">      
+        <p class="card-text">{{message?.message}}</p>
+        </div>
+    </div>
+    <div *ngIf="message.userNameFrom != usernameFrom " class="card mb-3 ms-3 mx-auto" style="width: 70%; float: left" >
+        <h5 class="card-header">From: {{message?.userNameFrom}}</h5>
+        <div class="card-body">      
+        <p class="card-text">{{message?.message}}</p>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+
+<footer>
+    <form class="row justify-content-center" [formGroup]="messageForm" style="width: 90%">
+        <div class="col-sm-9" >
+        <input type="text" class="form-control" [formControlName]="'messageInput'" placeholder="Enter message">
+        </div>
+        <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3" (click)="addMessage()">Send new message</button>
+        </div>
+    </form>
+</footer>

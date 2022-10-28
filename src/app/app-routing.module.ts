@@ -7,6 +7,7 @@ import { BourbonComponent } from './bourbon/bourbon.component';
 import { FollowedReviewsComponent } from './followed-reviews/followed-reviews.component';
 import { HomeComponent } from './home/home.component';
 import { InfoComponent } from './info/info.component';
+import { MessagesComponent } from './messages/messages.component';
 import { NewBourbonComponent } from './new-bourbon/new-bourbon.component';
 import { NewReviewComponent } from './new-review/new-review.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'new-review', component: NewReviewComponent},
   {path: 'new-bourbon', component: NewBourbonComponent},
   {path: 'profile', component: ProfileComponent},
-  {path: 'followed-reviews', component: FollowedReviewsComponent}
+  {path: 'followed-reviews', component: FollowedReviewsComponent},
+  {path: 'messages', component: MessagesComponent}
 ];
 
 @NgModule({

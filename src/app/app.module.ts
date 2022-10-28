@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewBourbonComponent } from './new-bourbon/new-bourbon.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FollowedReviewsComponent } from './followed-reviews/followed-reviews.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { FollowedReviewsComponent } from './followed-reviews/followed-reviews.co
     NewReviewComponent,
     NewBourbonComponent,
     ProfileComponent,
-    FollowedReviewsComponent
+    FollowedReviewsComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,

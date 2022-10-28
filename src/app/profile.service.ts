@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Message } from './message';
+import { MessagePayload } from './message.payload';
 import { Profile } from './profile';
 import { Review } from './review';
 
@@ -33,6 +35,15 @@ export class ProfileService {
 
     public unfollowUser(name: string, follow: string): Observable<any> {
       return this.httpClient.delete(`${this.serverUrl}/profile/unfollow/${name}/${follow}`)
+    }
+
+    public getConversation(usernameto: string, usernamefrom: string): Observable<Message[]> {
+      return this.httpClient.get<Message[]>(`${this.serverUrl}/message/${usernameto}/${usernamefrom}`)
+    }
+
+    addMessage(messagePayload: MessagePayload): Observable<any>{
+      const options = {headers: {'ContentType': "application/json"}};
+      return this.httpClient.post(`${this.serverUrl}/message`, {"userNameTo": messagePayload.userNameTo, "userNameFrom": messagePayload.userNameFrom, "message": messagePayload.message}, options);
     }
 
 }
