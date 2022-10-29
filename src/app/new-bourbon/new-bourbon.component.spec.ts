@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'ngx-webstorage';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { BourbonService } from '../bourbon.service';
 
 import { NewBourbonComponent } from './new-bourbon.component';
@@ -56,7 +56,7 @@ describe('NewBourbonComponent', () => {
     expect(component.bourbonForm.valid).toBeTruthy();
   });
 
-  it('should newReview', () => {
+  it('should newBourbon', () => {
     let newSpy = spyOn(bourbonService, 'addBourbon').and.returnValues(of({
       result : {
          httpStatus : 200
@@ -67,6 +67,37 @@ describe('NewBourbonComponent', () => {
     component.bourbonForm.controls['proof'].setValue(3.0);
     component.newBourbon();
     expect(component.bourbonForm.get('name')?.value).toBe("testName");
+    expect(component.bourbonForm.get('distil')?.value).toBe("testDistil");
+    expect(component.bourbonForm.get('proof')?.value).toBe(3.0);
+  });
+
+  it('should not newBourbon', () => {
+    let newSpy = spyOn(bourbonService, 'addBourbon').and.returnValues(throwError(() => new Error("test")));
+    component.bourbonForm.controls['name'].setValue("testName");
+    component.bourbonForm.controls['distil'].setValue("testDistil");
+    component.bourbonForm.controls['proof'].setValue(3.0);
+    component.newBourbon();
+    expect(component.bourbonForm.get('name')?.value).toBe("testName");
+    expect(component.bourbonForm.get('distil')?.value).toBe("testDistil");
+    expect(component.bourbonForm.get('proof')?.value).toBe(3.0);
+  });
+
+  it('should onSubmit', () => {
+    let newSpy = spyOn(component, 'newBourbon');
+    component.bourbonForm.controls['name'].setValue("testName");
+    component.bourbonForm.controls['distil'].setValue("testDistil");
+    component.bourbonForm.controls['proof'].setValue(3.0);
+    component.onSubmit();
+    expect(component.bourbonForm.get('name')?.value).toBe("testName");
+    expect(component.bourbonForm.get('distil')?.value).toBe("testDistil");
+    expect(component.bourbonForm.get('proof')?.value).toBe(3.0);
+    expect(newSpy).toHaveBeenCalled;
+  });
+
+  it('should not Submit', () => {
+    component.bourbonForm.controls['distil'].setValue("testDistil");
+    component.bourbonForm.controls['proof'].setValue(3.0);
+    component.onSubmit();
     expect(component.bourbonForm.get('distil')?.value).toBe("testDistil");
     expect(component.bourbonForm.get('proof')?.value).toBe(3.0);
   });

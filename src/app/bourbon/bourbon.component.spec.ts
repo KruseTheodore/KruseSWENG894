@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { AuthService } from '../auth/shared/auth.service';
 import { Bourbon } from '../bourbon';
 import { BourbonService } from '../bourbon.service';
@@ -43,6 +43,12 @@ describe('BourbonComponent', () => {
       {name: 'tastName', distil: 'testDistil', proof: 100.0, rating: 4.0}
     ]
     let newSpy = spyOn(bourbonService, 'getBourbons').and.returnValues(of(bourbons));
+    component.getBourbons();
+    expect(newSpy).toHaveBeenCalled();
+  });
+
+  it('should not get bourbons', () => {
+    let newSpy = spyOn(bourbonService, 'getBourbons').and.returnValues(throwError(() => new Error("test")));
     component.getBourbons();
     expect(newSpy).toHaveBeenCalled();
   });
@@ -236,7 +242,7 @@ describe('BourbonComponent', () => {
     expect(newSpy).toHaveBeenCalled();
   });
 
-  /** 
+   
   it('should getReviewed', () => {
     let reviews: Review[];
     reviews = [
@@ -250,7 +256,7 @@ describe('BourbonComponent', () => {
     expect(newSpy).toHaveBeenCalled();
     expect(newSpy2).toHaveBeenCalled();
   });
-  */
+  
   
 
   it('should removeOwned', () => {

@@ -101,9 +101,6 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  getBourbonsOnProfile(){
-
-  }
 
   followUser(){
     this.profileService.followUser(this.storedProfile, this.profileName).subscribe(data => {

@@ -55,14 +55,48 @@ describe('FollowedReviewsComponent', () => {
     expect(newSpy).toHaveBeenCalled();
   });
 
+  it('should getProfile no follows', () => {
+    let role: Role;
+    role = {
+      id: 'test',
+      name: 'testRole'
+    }
+    let profile: Profile;
+    profile = {
+      id: 'testId',
+      name: 'testName',
+      password: 'testPass',
+      bourbon_ids: ["test", 'test2'],
+      roles: [role],
+      followed_names: [],
+    }
+    let newSpy = spyOn(profileService, 'getProfileByName').and.returnValues(of(profile));
+    component.getProfile();
+    expect(newSpy).toHaveBeenCalled();
+  });
+
   it('should getReviewsOnProfile', () => {
     let reviews: Review[];
     reviews = [
       {id: 'test', name: 'testName', rating: 4.0, taste: 4.5, nose: 3.5, mouthfeel: 3.0,
        value: 2.5, availability: 2.0, content: 'testContent', profile_id: 'testPID', bourbon_id: 'testBID'}
     ]
+    let role: Role;
+    role = {
+      id: 'test',
+      name: 'testRole'
+    }
+    let profile: Profile;
+    profile = {
+      id: 'testId',
+      name: 'testName',
+      password: 'testPass',
+      bourbon_ids: ["test", 'test2'],
+      roles: [role],
+      followed_names: ["test"],
+    }
     let newSpy = spyOn(profileService, 'getReviewsOnProfile').and.returnValues(of(reviews));
-    component.followedNames = ['test'];
+    component.profile = profile;
     fixture.detectChanges();
 
     component.getReviewsOnProflie();
