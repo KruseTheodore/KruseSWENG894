@@ -35,6 +35,10 @@ export class BourbonService {
       return this.httpClient.get<Review[]>(`${this.serverUrl}/review/bourbons/${name}`)
    }
 
+   public getBourbonByName(name: string): Observable<Bourbon> {
+    return this.httpClient.get<Bourbon>(`${this.serverUrl}/bourbon/${name}`)
+   }
+
 
     /** 
     public updateBourbon(bourbon: Bourbon): Observable<Bourbon[]> {

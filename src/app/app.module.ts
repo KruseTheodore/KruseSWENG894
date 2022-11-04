@@ -22,6 +22,7 @@ import { NewBourbonComponent } from './new-bourbon/new-bourbon.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FollowedReviewsComponent } from './followed-reviews/followed-reviews.component';
 import { MessagesComponent } from './messages/messages.component';
+import { SingleBourbonComponent } from './single-bourbon/single-bourbon.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { MessagesComponent } from './messages/messages.component';
     NewBourbonComponent,
     ProfileComponent,
     FollowedReviewsComponent,
-    MessagesComponent
+    MessagesComponent,
+    SingleBourbonComponent
   ],
   imports: [
     BrowserModule,

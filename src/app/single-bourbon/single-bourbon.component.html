@@ -1,0 +1,61 @@
+<br>
+<h2 style="text-align: center">{{bourbon.name}} and Reviews</h2>
+<br>
+
+<div class="card mb-3 mx-auto" style="width: 70%">
+    <div class="card-body">
+        <h2 class="card-title center">{{bourbon.name}}</h2>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{bourbon.name}} is made by the {{bourbon.distil}} distillery.</li>
+        <li class="list-group-item">The proof of {{bourbon.distil}} is {{bourbon.proof}}.</li>
+        <li *ngIf="bourbon.rating" class="list-group-item">The average overall rating of {{bourbon.distil}} is {{bourbon.rating}}.</li>
+        <li *ngIf="!bourbon.rating" class="list-group-item">The average overall rating of {{bourbon.distil}} is N/A.</li>
+      </ul>
+      <button routerLink= "/new-review" [queryParams]="{name: bourbon.name}" class="btn btn-primary">Review {{bourbon.name}}</button>
+    </div>
+  </div>
+
+  <div *ngFor="let review of reviews" class="card mb-3 mx-auto" style="width: 90%" >
+    <h5 class="card-header">{{review?.name}}</h5>
+    <div class="card-body">
+      <h5 class="card-title">Bourbon: {{review?.bourbon_id}}</h5>
+      <h5 class="card-title">Rating: {{review?.rating}}</h5>
+      <div> 
+        <span *ngIf="!review.taste">
+            taste: N/A
+        </span>
+        <span *ngIf="review.taste">
+            taste: {{review?.taste}}
+        </span>
+        <span *ngIf="!review.nose">
+            nose: N/A
+        </span>
+        <span *ngIf="review.nose">
+            nose: {{review?.nose}}
+        </span>
+        <span *ngIf="!review.mouthfeel">
+            mouthfeel: N/A
+        </span>
+        <span *ngIf="review.mouthfeel">
+            mouthfeel: {{review?.mouthfeel}}
+        </span>
+        <span *ngIf="!review.value">
+            value: N/A
+        </span>
+        <span *ngIf="review.value">
+            value: {{review?.value}}
+        </span>
+        <span *ngIf="!review.availability">
+            availability: N/A
+        </span>
+        <span *ngIf="review.availability">
+            availability: {{review?.availability}}
+        </span>
+    </div>
+      <p class="card-text">{{review?.content}}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+      <span class="position-absolute bottom-0 end-0 my-1 mx-3" *ngIf="review.profile_id">
+        <a routerLink= "/profile" [queryParams]="{name: review.profile_id}" class="nav-link" href="#profile" >Reviewed By: {{review?.profile_id}}</a>
+      </span>
+    </div>
+  </div>

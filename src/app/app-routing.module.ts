@@ -12,6 +12,7 @@ import { NewBourbonComponent } from './new-bourbon/new-bourbon.component';
 import { NewReviewComponent } from './new-review/new-review.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewComponent } from './review/review.component';
+import { SingleBourbonComponent } from './single-bourbon/single-bourbon.component';
 
 const routes: Routes = [
   {path: 'bourbon', component: BourbonComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path: 'new-bourbon', component: NewBourbonComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'followed-reviews', component: FollowedReviewsComponent},
-  {path: 'messages', component: MessagesComponent}
+  {path: 'messages', component: MessagesComponent},
+  {path: 'single-bourbon', component: SingleBourbonComponent}
 ];
 
 @NgModule({

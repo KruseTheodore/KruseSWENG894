@@ -41,7 +41,7 @@ export class NewBourbonComponent implements OnInit {
       this.newBourbon();
     }
     else{
-      this.toastr.error('Please fill out Review Name and Overall Rating and try submitting again.');
+      this.toastr.error('Please fill out Bourbon Name, Distillery, and Proof and try submitting again.');
     }
 
   }
