@@ -17,8 +17,7 @@ export class SingleBourbonComponent implements OnInit {
   reviews: Review[];
 
   constructor(private activatedRoute: ActivatedRoute,
-    private bourbonService: BourbonService,
-    private router: Router) { }
+    private bourbonService: BourbonService) { }
 
   ngOnInit(): void {
     if(this.activatedRoute.snapshot.queryParamMap.get('name') != null){
