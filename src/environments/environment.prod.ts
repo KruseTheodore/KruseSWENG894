@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  testUrl:'http://localhost:8080/BourbonCommunityReviews'
+  testUrl:'https://bourboncommunityreviews-java.herokuapp.com/BourbonCommunityReviews'
 };
