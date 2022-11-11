@@ -33,8 +33,4 @@ describe('HeaderComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should resetHeader', () => {
-    component.resetHeader();
-    expect(component).toBeDefined();
-  });
 });

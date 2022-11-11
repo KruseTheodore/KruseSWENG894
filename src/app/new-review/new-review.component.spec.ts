@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'ngx-webstorage';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ReviewService } from '../review.service';
 
 import { NewReviewComponent } from './new-review.component';
@@ -77,4 +77,35 @@ describe('NewReviewComponent', () => {
     expect(component.reviewForm.get('availability')?.value).toBe(3.5);
     expect(component.reviewForm.get('content')?.value).toBe("testContent");
   });
+
+  it('should not newReview', () => {
+    let newSpy = spyOn(reviewService, 'newReview').and.returnValues(throwError(() => new Error("test")));
+    component.reviewForm.controls['name'].setValue("testName");
+    component.reviewForm.controls['rating'].setValue(3.0);
+    component.reviewForm.controls['taste'].setValue(3.1);
+    component.reviewForm.controls['nose'].setValue(3.2);
+    component.reviewForm.controls['mouthfeel'].setValue(3.3);
+    component.reviewForm.controls['value'].setValue(3.4);
+    component.reviewForm.controls['availability'].setValue(3.5);
+    component.reviewForm.controls['content'].setValue("testContent");
+    component.newReview();
+    expect(newSpy).toHaveBeenCalled;
+  });
+
+  it('should onSubmit', () => {
+    let newSpy = spyOn(component, 'newReview');
+    component.reviewForm.controls['name'].setValue("testName");
+    component.reviewForm.controls['rating'].setValue(3.0);
+    component.onSubmit();
+    expect(newSpy).toHaveBeenCalled;
+  });
+
+  it('should not onSubmit', () => {
+    let newSpy = spyOn(component, 'newReview');
+    component.onSubmit();
+    expect(newSpy).toHaveBeenCalled;
+  });
+
+
+  
 });
