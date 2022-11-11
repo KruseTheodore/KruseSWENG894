@@ -1,4 +1,23 @@
 <br>
 <h2 style="text-align: center">Home</h2>
 <br>
-<p style="text-align: center">This is where the home page will go but it is currently not created. It will likely consost of bourbons and reviews together. <br></p>
+<h4 style="text-align: center">Check out the top 10 rated bourbons below! <br></h4>
+<div class="container">
+    <div class="row align-items-center gy-5">
+      <div *ngFor="let bourbon of bourbons | slice: 0:10; let i=index" class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{bourbon?.name}}</h5>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Distillery: {{bourbon?.distil}}</li>
+                <li class="list-group-item">Proof: {{bourbon?.proof}}</li>
+                <li *ngIf="bourbon.rating" class="list-group-item">Average Overall Rating: {{bourbon?.rating}}</li>
+                <li *ngIf="!bourbon.rating" class="list-group-item">Average Overall Rating: N/A</li>
+              </ul>
+              <br>
+              <button routerLink= "/single-bourbon" [queryParams]="{name: bourbon.name}" class="btn btn-primary">View {{bourbon?.name}}</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
