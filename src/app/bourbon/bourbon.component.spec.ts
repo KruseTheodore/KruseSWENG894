@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ToastrService } from 'ngx-toastr';
+import { LocalStorageService } from 'ngx-webstorage';
 import { of, throwError } from 'rxjs';
 import { AuthService } from '../auth/shared/auth.service';
 import { Bourbon } from '../bourbon';
@@ -16,12 +18,14 @@ describe('BourbonComponent', () => {
   let fixture: ComponentFixture<BourbonComponent>;
   let bourbonService: BourbonService
   let profileService: ProfileService;
-  const authService = {getUsername: () => 'test'} as AuthService;
+  let toastrService: jasmine.SpyObj<ToastrService>;
+  const authService = {getUsername: () => 'test', isLoggedIn: () => true} as AuthService;
 
   beforeEach(async () => {
+    toastrService = jasmine.createSpyObj<ToastrService>('ToasterService', ['error', 'success']);
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers:[BourbonService, ProfileService, {provide: AuthService, useValue: authService}],
+      providers:[BourbonService, ProfileService, {provide: AuthService, useValue: authService}, { provide: ToastrService, useValue: toastrService }],
       declarations: [ BourbonComponent ]
     })
     .compileComponents();
@@ -50,6 +54,34 @@ describe('BourbonComponent', () => {
   it('should not get bourbons', () => {
     let newSpy = spyOn(bourbonService, 'getBourbons').and.returnValues(throwError(() => new Error("test")));
     component.getBourbons();
+    expect(newSpy).toHaveBeenCalled();
+  });
+
+  it('should addBourbon', () => {
+    let bourbonName: string = "test";
+    let newSpy = spyOn(bourbonService, 'addBourbonToProfile').and.returnValues(of("test"));
+    component.addBourbonToProfile(bourbonName);
+    expect(newSpy).toHaveBeenCalled();
+  });
+
+  it('should not addBourbon', () => {
+    let bourbonName: string = "test";
+    let newSpy = spyOn(bourbonService, 'addBourbonToProfile').and.returnValues(throwError(() => new Error("test")));
+    component.addBourbonToProfile(bourbonName);
+    expect(newSpy).toHaveBeenCalled();
+  });
+
+  it('should removeBourbon', () => {
+    let bourbonName: string = "test";
+    let newSpy = spyOn(bourbonService, 'removeBourbonFromProfile').and.returnValues(of("test"));
+    component.removeBourbonFromProfile(bourbonName);
+    expect(newSpy).toHaveBeenCalled();
+  });
+
+  it('should not removeBourbon', () => {
+    let bourbonName: string = "test";
+    let newSpy = spyOn(bourbonService, 'removeBourbonFromProfile').and.returnValues(throwError(() => new Error("test")));
+    component.removeBourbonFromProfile(bourbonName);
     expect(newSpy).toHaveBeenCalled();
   });
 

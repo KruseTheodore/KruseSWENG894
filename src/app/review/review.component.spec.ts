@@ -7,17 +7,19 @@ import { Review } from '../review';
 
 import { ReviewComponent } from './review.component';
 import { of } from 'rxjs';
+import { AuthService } from '../auth/shared/auth.service';
 
 describe('ReviewComponent', () => {
   
   let component: ReviewComponent;
   let fixture: ComponentFixture<ReviewComponent>;
   let reviewService: ReviewService;
+  const authService = {getUsername: () => 'test', isLoggedIn: () => true} as AuthService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [ReviewComponent, ReviewService, LocalStorageService]
+      providers: [ReviewComponent, ReviewService, LocalStorageService, {provide: AuthService, useValue: authService}]
     })
     .compileComponents();
 

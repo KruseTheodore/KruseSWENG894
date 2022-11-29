@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
+import { AuthService } from '../auth/shared/auth.service';
 import { Bourbon } from '../bourbon';
 import { BourbonService } from '../bourbon.service';
 import { Review } from '../review';
@@ -13,13 +14,14 @@ describe('SingleBourbonComponent', () => {
   let fixture: ComponentFixture<SingleBourbonComponent>;
   let bourbonService: BourbonService;
   let routerStub = { navigate: jasmine.createSpy('navigate') };
+  const authService = {getUsername: () => 'test', isLoggedIn: () => true} as AuthService;
 
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [{provide: ActivatedRoute, useValue: {snapshot: {queryParamMap: convertToParamMap({name: 'test'})}}},
-       BourbonService, {provide: Router, useValue: routerStub}],
+       BourbonService, {provide: Router, useValue: routerStub}, {provide: AuthService, useValue: authService}],
       declarations: [ SingleBourbonComponent ]
     })
 
