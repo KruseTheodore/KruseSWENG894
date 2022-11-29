@@ -39,6 +39,14 @@ export class BourbonService {
     return this.httpClient.get<Bourbon>(`${this.serverUrl}/bourbon/${name}`)
    }
 
+   public addBourbonToProfile(name: string, bourbonToAdd: string): Observable<any> {
+    return this.httpClient.post(`${this.serverUrl}/profile/bourbon/${name}/${bourbonToAdd}`, null)
+  }
+
+  public removeBourbonFromProfile(name: string, bourbonToRemove: string): Observable<any> {
+    return this.httpClient.delete(`${this.serverUrl}/profile/unbourbon/${name}/${bourbonToRemove}`)
+  }
+
 
     /** 
     public updateBourbon(bourbon: Bourbon): Observable<Bourbon[]> {

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth/shared/auth.service';
 import { Bourbon } from '../bourbon';
 import { BourbonService } from '../bourbon.service';
@@ -30,11 +31,13 @@ export class BourbonComponent implements OnInit {
   public dislikedBourbon: string[] = [];
   public similarProfiles: string[] = [];
   public similarReviews: Review[] = [];
+  public isLoggedIn: boolean;
 
 
-  constructor(private bourbonService: BourbonService, private authService: AuthService, private profileService: ProfileService) { }
+  constructor(private bourbonService: BourbonService, private authService: AuthService, private profileService: ProfileService, private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.isLoggedIn = this.authService.isLoggedIn();
     this.storedProfile = this.authService.getUsername();
     this.reset = false;
     this.noMatch = false;
@@ -51,6 +54,24 @@ export class BourbonComponent implements OnInit {
       }
       );
 
+  }
+
+  addBourbonToProfile(bourbonToAdd: string){
+    this.bourbonService.addBourbonToProfile(this.storedProfile, bourbonToAdd).subscribe(data => {
+      this.toastr.success('Bourbon Added');
+      this.ngOnInit();
+    }, () => {
+      this.toastr.error('Failed to add bourbon please refresh and try agian.');
+    });
+  }
+
+  removeBourbonFromProfile(bourbonToAdd: string){
+    this.bourbonService.removeBourbonFromProfile(this.storedProfile, bourbonToAdd).subscribe(data => {
+      this.toastr.success('Bourbon Removed');
+      this.ngOnInit();
+    }, () => {
+      this.toastr.error('Failed to remove bourbon please refresh and try agian.');
+    });
   }
 
   sortBourbonsRating(){

@@ -1,4 +1,5 @@
-<div class="row align-items-start">
+
+<br><div class="row align-items-start">
     <div class="col">
       <div class="dropdown" style="float: right;">
         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,9 +59,11 @@
         </span>
     </div>
       <p class="card-text">{{review?.content}}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
       <span class="position-absolute bottom-0 end-0 my-1 mx-3" *ngIf="review.profile_id">
-        <a routerLink= "/profile" [queryParams]="{name: review.profile_id}" class="nav-link" href="#profile" >Reviewed By: {{review?.profile_id}}</a>
+        <a *ngIf="isLoggedIn" routerLink= "/profile" [queryParams]="{name: review.profile_id}" class="nav-link" href="#profile" >Reviewed By: {{review?.profile_id}}</a>
+        <span *ngIf="!isLoggedIn">
+          Reviewed By: {{review?.profile_id}}
+      </span>
       </span>
     </div>
   </div>

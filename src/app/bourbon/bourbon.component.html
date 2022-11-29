@@ -24,10 +24,10 @@
       <h2 style="text-align: center">Bourbons</h2>
     </div>
     <div class="col">
-      <a class="btn btn-secondary" style="float: left;" role="button" (click)="getRecommended()">
+      <a *ngIf="isLoggedIn" class="btn btn-secondary" style="float: left;" role="button" (click)="getRecommended()">
         See Recommended Borubons
       </a>
-      <button routerLink="/new-bourbon"class="btn btn-success" style="float: right;">Add New Bourbon</button>
+      <button *ngIf="isLoggedIn" routerLink="/new-bourbon"class="btn btn-success" style="float: right;">Add New Bourbon</button>
     </div>
   </div>
 <br>
@@ -44,9 +44,15 @@
                     <li *ngIf="bourbon.rating" class="list-group-item">Average Overall Rating: {{bourbon?.rating}}</li>
                     <li *ngIf="!bourbon.rating" class="list-group-item">Average Overall Rating: N/A</li>
                   </ul>
-                  <button routerLink= "/new-review" [queryParams]="{name: bourbon.name}" class="btn btn-primary">Review {{bourbon?.name}}</button>
-                  <br><br>
                   <button routerLink= "/single-bourbon" [queryParams]="{name: bourbon.name}" class="btn btn-primary">View {{bourbon?.name}}</button>
+                  <span *ngIf="isLoggedIn">
+                    <br><br>
+                    <button  routerLink= "/new-review" [queryParams]="{name: bourbon.name}" class="btn btn-secondary">Review {{bourbon?.name}}</button>
+                    <br><br>
+                    <button class="btn btn-success" (click)="addBourbonToProfile(bourbon.name)" >Add to profile</button>
+                    <br><br>
+                    <button class="btn btn-danger" (click)="removeBourbonFromProfile(bourbon.name)" >Remove from profile</button>
+                  </span>
                 </div>
               </div>
           </div>

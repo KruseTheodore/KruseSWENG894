@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/shared/auth.service';
 import { Review } from '../review';
 import { ReviewService } from '../review.service';
 
@@ -11,11 +12,13 @@ import { ReviewService } from '../review.service';
 export class ReviewComponent implements OnInit {
 
   public reviews: Review[];
+  public isLoggedIn: boolean;
 
 
-  constructor(private reviewService: ReviewService) { }
+  constructor(private reviewService: ReviewService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
     this.getReviews();
   }
 
