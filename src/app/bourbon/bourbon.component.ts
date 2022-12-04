@@ -270,11 +270,14 @@ export class BourbonComponent implements OnInit {
 
       };
 
+
       for(var l = 0; l < 5; l++){
         minIndex = rank.indexOf(Math.min(...rank));
         closeBourbons[l] = this.bourbons[minIndex];
         this.bourbons.splice(minIndex, 1);
+        rank.splice(minIndex, 1);
       }
+
 
       this.bourbons = closeBourbons;
 
